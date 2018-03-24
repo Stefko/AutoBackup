@@ -37,6 +37,12 @@
 			color: #fff;
 		}
 		
+		h2 {
+			color: aliceblue;
+			text-decoration: underline;
+/*			border-bottom: 2px solid aliceblue;*/
+		}
+		
 		p, li {
 			color:aliceblue;
 			line-height:1.75rem;
@@ -110,6 +116,7 @@ shell_exec('tar --exclude=\''.$path.'\'* -cvpzf '.$path.'/'.$date.'_'.$prefix.'.
 
 // Textausgabe
 echo '<p>Die <strong>'.$project.'</strong> Sicherung wurde am <strong>'.$date.'</strong> erstellt.</p>';
+echo '<h2>Download:</h2>';	
 echo '<ul><li><a href='.$path.'/'.$date.'_'.$dbDatabase.'.sql.gz'.'>Datenbank</a></li>';
 echo '<li><a href='.$path.'/'.$date.'_'.$prefix.'.tar.gz'.'>Datenstruktur</a></li></ul>';
 
