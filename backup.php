@@ -106,59 +106,52 @@
 		<h1>Auto-Backup</h1>
 
 		<div class="wrapper">
-
 			<?php
-
-// /* zugehöriger Conjob: */
-// MAILTO=name@domain.tld
-// 1 0 * * * /usr/bin/lynx -dump http://domain.de/backup.php
-
-
-// Variablen für das Backup
-
-$dbHost = "localhost";					// Datenbank Host
-$dbDatabase = "database";				// Name der Datenbank
-$dbUser = "user";						// Datenbank User
-$dbPass = "password";					// Datenbank Passwort
-$project = "Projektname";				// Projektname
-$root = "https://domain.tld/";			// Http-Pfad der Installation mit / am Ende
-$path = "Backup-Folder"; 				// Ordner für Sicherung (Ordner muss existieren)
-$prefix = "backup";						// Backup Name (Daten)
-$date = date("Y-m-d_H-i-s");			// Datumsformat (für Filename)
-$days = 14;								// Angabe in Tagen nach denen Sicherungen gelöscht werden sollen
-$fileType = 'gz';						// Dateiendung welche gelöscht werden soll
-
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Ab hier keine Änderungen mehr nötig
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-// Datenbank sichern und als gz-Archiv ablegen
-shell_exec('mysqldump -h '.$dbHost.' -u '.$dbUser.' -p'.$dbPass.' '.$dbDatabase.'  | gzip > '.$path.'/'.$date.'_'.$dbDatabase.'.sql.gz');
-
-// Daten sichern und als gz-Archiv ablegen
-shell_exec('tar --exclude=\''.$path.'\'* -cvpzf '.$path.'/'.$date.'_'.$prefix.'.tar.gz ./* .??*');
-
-// Textausgabe
-echo '<p>Die <strong>'.$project.'</strong> Sicherung wurde am <strong>'.$date.'</strong> erstellt.</p>';
-echo '<h2>Download:</h2>';	
-echo '<ul><li><a href='.$path.'/'.$date.'_'.$dbDatabase.'.sql.gz'.'>Datenbank</a></li>';
-echo '<li><a href='.$path.'/'.$date.'_'.$prefix.'.tar.gz'.'>Datenstruktur</a></li></ul>';
-
-// Ältere Sicherungen löschen
-foreach (array_slice(scanDir($path), 2) as $datei) {
- $dateityp = pathinfo($datei);
- if (is_file($path . $datei)) {
-  if ($dateityp['extension'] == $fileType) {
-   if (floor((time() - filemtime($path . $datei)) / 86400) > $days) {
-    unlink($path . $datei);
-   }
-  }
- }
-}
-
-?>
-
+			// /* zugehöriger Conjob: */
+			// MAILTO=name@domain.tld
+			// 1 0 * * * /usr/bin/lynx -dump http://domain.de/backup.php
+			
+			// Variablen für das Backup
+			$dbHost = "localhost";					// Datenbank Host
+			$dbDatabase = "database";				// Name der Datenbank
+			$dbUser = "user";						// Datenbank User
+			$dbPass = "password";					// Datenbank Passwort
+			$project = "Projektname";				// Projektname
+			$root = "https://domain.tld/";			// Http-Pfad der Installation mit / am Ende
+			$path = "Backup-Folder"; 				// Ordner für Sicherung (Ordner muss existieren)
+			$prefix = "backup";						// Backup Name (Daten)
+			$date = date("Y-m-d_H-i-s");			// Datumsformat (für Filename)
+			$days = 14;								// Angabe in Tagen nach denen Sicherungen gelöscht werden sollen
+			$fileType = 'gz';						// Dateiendung welche gelöscht werden soll
+			
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			// Ab hier keine Änderungen mehr nötig
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			
+			// Datenbank sichern und als gz-Archiv ablegen
+			shell_exec('mysqldump -h '.$dbHost.' -u '.$dbUser.' -p'.$dbPass.' '.$dbDatabase.'  | gzip > '.$path.'/'.$date.'_'.$dbDatabase.'.sql.gz');
+			
+			// Daten sichern und als gz-Archiv ablegen
+			shell_exec('tar --exclude=\''.$path.'\'* -cvpzf '.$path.'/'.$date.'_'.$prefix.'.tar.gz ./* .??*');
+			
+			// Textausgabe
+			echo '<p>Die <strong>'.$project.'</strong> Sicherung wurde am <strong>'.$date.'</strong> erstellt.</p>';
+			echo '<h2>Download:</h2>';	
+			echo '<ul><li><a href='.$path.'/'.$date.'_'.$dbDatabase.'.sql.gz'.'>Datenbank</a></li>';
+			echo '<li><a href='.$path.'/'.$date.'_'.$prefix.'.tar.gz'.'>Datenstruktur</a></li></ul>';
+			
+			// Ältere Sicherungen löschen
+			foreach (array_slice(scanDir($path), 2) as $datei) {
+				$dateityp = pathinfo($datei);
+				if (is_file($path . $datei)) {
+					if ($dateityp['extension'] == $fileType) {
+						if (floor((time() - filemtime($path . $datei)) / 86400) > $days) {
+							unlink($path . $datei);
+						}
+					}
+				}
+			}
+			?>
 		</div>
 	</main>
 	<footer>
