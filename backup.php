@@ -44,7 +44,9 @@
 		
 		strong {
 			font-family: 'Roboto Mono';
-			border-bottom: 2px solid aliceblue;
+			padding:2px 5px;
+			border: 2px solid aliceblue;
+			background-color: dodgerblue;
 		}
 		
 		a:link,
