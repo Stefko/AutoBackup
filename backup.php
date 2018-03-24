@@ -16,6 +16,8 @@
 	<script language="JavaScript"></script>
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300|Roboto+Mono:100,300" rel="stylesheet">
 	<style type="text/css">
+		/* reset */
+		blockquote,body,code,dd,div,dl,dt,fieldset,figure,form,h1,h2,h3,h4,h5,h6,input,legend,li,ol,p,pre,table,td,textarea,th,ul{margin:0;padding:0}table{border-spacing:0;border-collapse:collapse}caption,td,th{text-align:left;text-align:start;vertical-align:top}abbr,acronym{font-variant:normal;border-bottom:1px dotted #666;cursor:help}blockquote,q{quotes:none}fieldset,img{border:0}sup{vertical-align:text-top}sub{vertical-align:text-bottom}del{text-decoration:line-through}ins{text-decoration:none}article,aside,figcaption,figure,footer,header,nav,section{display:block}button,input,select,textarea{font-family:inherit;font-size:99%;font-weight:inherit}code,pre{font-family:Monaco,monospace}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:400}h1{font-size:1.8333em}h2{font-size:1.6667em}h3{font-size:1.5em}h4{font-size:1.3333em}table{font-size:inherit}caption,th{font-weight:700}a{color:#00f}h1,h2,h3,h4,h5,h6{margin-top:1em}blockquote,form,h1,h2,h3,h4,h5,h6,ol,p,pre,table,ul{margin-bottom:12px}
 		
 		body {
 			min-height: 100vh;
@@ -30,6 +32,10 @@
 			margin: 10px 0 40px 20px;
 		}
 		
+		main {
+			min-height: calc(100vh - 60px);
+		}
+		
 		h1 {
 			margin: 10px 0 40px 20px;
 			text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, .1), 0 0 5px rgba(0, 0, 0, .1), 0 1px 3px rgba(0, 0, 0, .3), 0 3px 5px rgba(0, 0, 0, .2), 0 5px 10px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .2), 0 20px 20px rgba(0, 0, 0, .15);
@@ -39,13 +45,21 @@
 		
 		h2 {
 			color: aliceblue;
-			text-decoration: underline;
-/*			border-bottom: 2px solid aliceblue;*/
+/*			text-decoration: underline;*/
+			width:200px;
+			padding:2px 5px;
+			border: 2px solid aliceblue;
+			border-top:none;
+			border-right:none;
 		}
 		
 		p, li {
 			color:aliceblue;
 			line-height:1.75rem;
+		}
+		
+		li {
+			margin-left:20px;
 		}
 		
 		strong {
@@ -73,16 +87,27 @@
     		transition: all 0.5s ease;
 		}
 		
+		footer {
+			width:100%;
+			background:rgba(255, 255, 255, 0.5);
+			text-align: center;
+			font-style: italic;
+			height: 30px;
+		  	margin-top: -28px;
+			padding: 5px 0 0 0;
+			box-shadow: 0 -2px 0px rgba(255, 255, 255, 1);
+		}
+		
 	</style>
 </head>
 
 <body>
+	<main>
+		<h1>Auto-Backup</h1>
 
-<h1>Auto-Backup</h1>
+		<div class="wrapper">
 
-<div class="wrapper">
-
-<?php
+			<?php
 
 // /* zugehöriger Conjob: */
 // MAILTO=name@domain.tld
@@ -134,8 +159,14 @@ foreach (array_slice(scanDir($path), 2) as $datei) {
 
 ?>
 
-</div>
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		</div>
+	</main>
+	<footer>
+		<div>
+			<span class="author">Author: <a href="https://github.com/Stefko/AutoBackup" target="_blank">Stefan Kohler</a></span>
+		</div>
+	</footer>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </body>
+
 </html>
