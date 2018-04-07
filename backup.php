@@ -135,7 +135,7 @@
 			shell_exec('tar --exclude=\''.$path.'\'* -cvpzf '.$path.'/'.$date.'_'.$prefix.'.tar.gz ./* .??*');
 			
 			// Textausgabe
-			echo '<p>Die <strong>'.$project.'</strong> Sicherung wurde am <strong>'.$date.'</strong> erstellt.</p>';
+			echo '<p>Die <strong>'.$project.'</strong> Sicherung wurde am <strong>'.$date.'</strong> automatisch per CronJob erstellt.</p>';
 			echo '<h2>Download:</h2>';	
 			echo '<ul><li><a href='.$path.'/'.$date.'_'.$dbDatabase.'.sql.gz'.'>Datenbank</a></li>';
 			echo '<li><a href='.$path.'/'.$date.'_'.$prefix.'.tar.gz'.'>Datenstruktur</a></li></ul>';
