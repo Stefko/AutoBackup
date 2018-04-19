@@ -122,7 +122,8 @@
 			$prefix = "backup";						// Backup Name (Daten)
 			$date = date("Y-m-d_H-i-s");			// Datumsformat (für Filename)
 			$days = 14;								// Angabe in Tagen nach denen Sicherungen gelöscht werden sollen
-			$fileType = 'gz';						// Dateiendung welche gelöscht werden soll
+			$fileType = gz;						// Dateiendung welche gelöscht werden soll
+			
 			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// Ab hier keine Änderungen mehr nötig
@@ -135,23 +136,44 @@
 			shell_exec('tar --exclude=\''.$path.'\'* -cvpzf '.$path.'/'.$date.'_'.$prefix.'.tar.gz ./* .??*');
 			
 			// Textausgabe
-			echo '<p>Die <strong>'.$project.'</strong> Sicherung wurde am <strong>'.$date.'</strong> automatisch per CronJob erstellt.</p>';
+			echo '<p>Die <strong>'.$project.'</strong> Sicherung wurde am <strong>'.$date.'</strong> erstellt.</p>';
 			echo '<h2>Download:</h2>';	
 			echo '<ul><li><a href='.$path.'/'.$date.'_'.$dbDatabase.'.sql.gz'.'>Datenbank</a></li>';
 			echo '<li><a href='.$path.'/'.$date.'_'.$prefix.'.tar.gz'.'>Datenstruktur</a></li></ul>';
+		
 			
-			// Ältere Sicherungen löschen
-			foreach (array_slice(scanDir($path), 2) as $datei) {
-				$dateityp = pathinfo($datei);
-				if (is_file($path . $datei)) {
-					if ($dateityp['extension'] == $fileType) {
-						if (floor((time() - filemtime($path . $datei)) / 86400) > $days) {
-							unlink($path . $datei);
-						}
-					}
-				}
+			// Ältere DB-Sicherungen löschen
+			function delete_older_than($dir, $max_age) {
+  				$list = array();
+  				$limit = time() - $max_age;
+  				$dir = realpath($dir);
+  				if (!is_dir($dir)) {
+  				  return;
+  				}
+  				$dh = opendir($dir);
+  				if ($dh === false) {
+  				  return;
+  				}
+  				while (($file = readdir($dh)) !== false) {
+  				  $file = $dir . '/' . $file;
+  				  if (!is_file($file)) {
+  				    continue;
+  				  }
+  				  if (filemtime($file) < $limit) {
+  				    $list[] = $file;
+  				    unlink($file);
+  				  }
+  				}
+  				closedir($dh);
+  				return $list;
 			}
+		
+			$deleted = delete_older_than($path, 3600*24*$days);
+			
+			echo '<hr><p>'.count($deleted)." alte Backups gelöscht:<br>" .implode("<br>", $deleted);
+			
 			?>
+			
 		</div>
 	</main>
 	<footer>
