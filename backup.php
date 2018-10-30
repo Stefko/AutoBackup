@@ -122,7 +122,7 @@
 			$prefix = "backup";						// Backup Name (Daten)
 			$date = date("Y-m-d_H-i-s");			// Datumsformat (für Filename)
 			$days = 14;								// Angabe in Tagen nach denen Sicherungen gelöscht werden sollen
-			$fileType = gz;						// Dateiendung welche gelöscht werden soll
+			$fileType = gz;							// Dateiendung welche gelöscht werden soll
 			
 			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
